@@ -5,7 +5,7 @@ const parser = new Parser()
 
 export async function crawlGemini(): Promise<NewsItem[]> {
   try {
-    const feed = await parser.parseURL('https://blog.google/technology/google-deepmind/rss/')
+    const feed = await parser.parseURL('https://blog.google/innovation-and-ai/models-and-research/google-deepmind/rss/')
     return feed.items
       .map((item) => ({
         tool: 'gemini' as const,

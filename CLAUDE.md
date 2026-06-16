@@ -62,7 +62,7 @@ vercel.json                       # Cron 설정
 |----|-----|------|------|
 | GPT | `https://openai.com/news/rss.xml` | RSS | rss-parser |
 | Claude | `https://www.anthropic.com/news` | HTML fetch + cheerio | cheerio |
-| Gemini | `https://blog.google/technology/google-deepmind/rss/` | RSS | rss-parser |
+| Gemini | `https://blog.google/innovation-and-ai/models-and-research/google-deepmind/rss/` | RSS | rss-parser |
 
 ### GPT (openai.ts)
 - 추출: `item.title`, `item.link`, `item.pubDate`, `item.contentSnippet`
