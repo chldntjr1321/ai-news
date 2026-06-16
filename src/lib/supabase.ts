@@ -20,6 +20,19 @@ export async function upsertNews(items: NewsItem[]): Promise<void> {
   if (error) throw new Error(`upsertNews failed: ${error.message}`);
 }
 
+export async function getLastUpdated(): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('news')
+    .select('created_at')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw new Error(`getLastUpdated failed: ${error.message}`);
+
+  return data?.created_at ?? null;
+}
+
 export async function getNews(tool?: Tool): Promise<NewsItem[]> {
   let query = supabase
     .from('news')

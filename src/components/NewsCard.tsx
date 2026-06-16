@@ -19,7 +19,7 @@ export default function NewsCard({ item }: { item: NewsItem }) {
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex flex-col gap-2 rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md"
+      className="flex h-full min-h-[200px] flex-col gap-2 rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md"
     >
       <div className="flex items-center justify-between">
         <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${badge.className}`}>

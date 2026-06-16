@@ -31,7 +31,7 @@ export default function ToolFilter() {
         <button
           key={tab.value}
           onClick={() => handleClick(tab.value)}
-          className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+          className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition ${
             current === tab.value
               ? 'bg-gray-900 text-white'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
