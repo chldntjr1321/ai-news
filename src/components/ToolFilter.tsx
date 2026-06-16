@@ -26,20 +26,20 @@ export default function ToolFilter() {
   }
 
   return (
-    <div className="flex gap-2">
+    <nav className="flex flex-col gap-1">
       {TABS.map((tab) => (
         <button
           key={tab.value}
           onClick={() => handleClick(tab.value)}
-          className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition ${
+          className={`cursor-pointer rounded-md px-3 py-2 text-left text-sm font-medium transition ${
             current === tab.value
-              ? 'bg-gray-900 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'border-l-2 border-gray-900 bg-gray-100 text-gray-900'
+              : 'border-l-2 border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-900'
           }`}
         >
           {tab.label}
         </button>
       ))}
-    </div>
+    </nav>
   )
 }

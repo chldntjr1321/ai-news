@@ -2,6 +2,9 @@ import { Suspense } from 'react'
 import { getLastUpdated, getNews } from '@/lib/supabase'
 import NewsGrid from '@/components/NewsGrid'
 import ToolFilter from '@/components/ToolFilter'
+import Banner from '@/components/Banner'
+import DigestSummary from '@/components/DigestSummary'
+import LastUpdated from '@/components/LastUpdated'
 import type { Tool } from '@/types'
 
 interface PageProps {
@@ -15,31 +18,32 @@ export default async function Home({ searchParams }: PageProps) {
     : undefined
 
   const [news, lastUpdated] = await Promise.all([getNews(tool), getLastUpdated()])
+  const [banner, ...rest] = news
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10">
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">AI 뉴스</h1>
-        <p className="mt-1 text-sm text-gray-500">GPT · Claude · Gemini 최신 소식</p>
-      </header>
+    <main className="mx-auto max-w-6xl px-4 py-10">
+      <div className="flex gap-8">
+        <Suspense>
+          <aside className="w-32 shrink-0">
+            <ToolFilter />
+          </aside>
+        </Suspense>
 
-      <Suspense>
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-          <ToolFilter />
-          {lastUpdated && (
-            <p className="text-xs text-gray-400">
-              마지막 업데이트{' '}
-              {new Date(lastUpdated).toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}
-            </p>
+        <div className="flex-1">
+          {banner && (
+            <div className="mb-6 grid gap-4 sm:grid-cols-3">
+              <div className="sm:col-span-2">
+                <Banner item={banner} />
+              </div>
+              <DigestSummary />
+            </div>
           )}
-        </div>
-      </Suspense>
 
-      <NewsGrid items={news} />
+          {lastUpdated && <LastUpdated date={lastUpdated} />}
+
+          <NewsGrid items={rest} />
+        </div>
+      </div>
     </main>
   )
 }
