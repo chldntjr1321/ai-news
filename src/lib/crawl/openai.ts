@@ -14,7 +14,7 @@ export async function crawlOpenAI(): Promise<NewsItem[]> {
         url: item.link ?? '',
         published_at: new Date(item.pubDate ?? '').toISOString(),
       }))
-      .filter((item) => item.title && item.url)
+      .filter((item) => item.title && item.url && item.published_at >= '2025-01-01')
   } catch {
     return []
   }

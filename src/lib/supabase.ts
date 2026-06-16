@@ -24,6 +24,7 @@ export async function getNews(tool?: Tool): Promise<NewsItem[]> {
   let query = supabase
     .from('news')
     .select('tool, title, summary, url, published_at')
+    .gte('published_at', '2025-01-01T00:00:00Z')
     .order('published_at', { ascending: false })
     .limit(100);
 
