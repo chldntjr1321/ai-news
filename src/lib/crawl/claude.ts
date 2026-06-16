@@ -14,7 +14,7 @@ export async function crawlClaude(): Promise<NewsItem[]> {
     const $ = cheerio.load(html)
     const items: NewsItem[] = []
 
-    $('a[href^="/news/"]').each((_, el) => {
+    $('a[href^="/news/"][class*="listItem"]').each((_, el) => {
       const href = $(el).attr('href')
       if (!href) return
 
