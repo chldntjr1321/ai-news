@@ -1,19 +1,26 @@
 import { createClient } from '@supabase/supabase-js';
 import type { NewsItem, Tool } from '@/types';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+// 프론트엔드 전용 — anon key, 함수 호출 시점에 생성
+export function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  );
+}
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// 크롤러 전용: service_role key 사용 (RLS 우회)
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+// 크롤러 전용 — service_role key, RLS 우회
+export function getSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  );
+}
 
 export async function upsertNews(items: NewsItem[]): Promise<void> {
   if (items.length === 0) return;
 
-  const { error } = await supabaseAdmin
+  const { error } = await getSupabaseAdmin()
     .from('news')
     .upsert(items, { onConflict: 'url', ignoreDuplicates: true });
 
@@ -21,7 +28,7 @@ export async function upsertNews(items: NewsItem[]): Promise<void> {
 }
 
 export async function getLastUpdated(): Promise<string | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from('news')
     .select('created_at')
     .order('created_at', { ascending: false })
@@ -34,7 +41,7 @@ export async function getLastUpdated(): Promise<string | null> {
 }
 
 export async function getNews(tool?: Tool): Promise<NewsItem[]> {
-  let query = supabase
+  let query = getSupabaseClient()
     .from('news')
     .select('tool, title, summary, url, published_at')
     .gte('published_at', '2025-01-01T00:00:00Z')
