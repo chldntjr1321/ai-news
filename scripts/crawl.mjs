@@ -1,14 +1,12 @@
-// @ts-check
-'use strict'
-
-const Parser = require('rss-parser')
-const cheerio = require('cheerio')
-const { createClient } = require('@supabase/supabase-js')
+import Parser from 'rss-parser'
+import * as cheerio from 'cheerio'
+import { createClient } from '@supabase/supabase-js'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY,
 )
+
 
 const parser = new Parser()
 
