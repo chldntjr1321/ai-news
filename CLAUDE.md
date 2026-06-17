@@ -34,9 +34,13 @@ src/
 │           └── route.ts          # POST /api/crawl
 │
 ├── components/
+│   ├── Header.tsx                # 전체 폭 헤더 바 (로고 클릭 시 홈으로, GitHub/언어 아이콘)
+│   ├── Banner.tsx                # 메인 배너 (현재는 최신 글 1건, 추후 GPT/Claude/Gemini 3건 페이드 전환 예정)
+│   ├── DigestSummary.tsx         # 오늘의 종합 요약 박스 (현재 placeholder, LLM 연동 전)
+│   ├── ToolFilter.tsx            # 좌측 사이드바 내비 — 전체/GPT/Claude/Gemini (Client Component, URL의 ?tool= 기준)
 │   ├── NewsCard.tsx              # 뉴스 카드 1개
 │   ├── NewsGrid.tsx              # 카드 목록
-│   └── ToolFilter.tsx            # GPT / Claude / Gemini 탭 필터 (Client Component)
+│   └── LastUpdated.tsx           # "마지막 업데이트 YYYY년 M월 D일" 표시
 │
 ├── lib/
 │   ├── crawl/
@@ -44,7 +48,8 @@ src/
 │   │   ├── openai.ts             # openai.com/news/rss.xml RSS 파싱
 │   │   ├── claude.ts             # anthropic.com/news HTML 파싱 (cheerio)
 │   │   └── gemini.ts             # Google DeepMind 블로그 RSS 파싱
-│   └── supabase.ts               # DB 저장(upsert) / 조회
+│   ├── supabase.ts               # DB 저장(upsert) / 조회 (getNews, getLastUpdated)
+│   └── badge.ts                  # TOOL_BADGE — tool별 배지 라벨/색상 매핑 (NewsCard, Banner 공유)
 │
 └── types/index.ts                # NewsItem, Tool 타입
 
