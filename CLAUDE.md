@@ -108,7 +108,30 @@ NEXT_PUBLIC_SUPABASE_URL=        # Supabase 프로젝트 URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=   # 공개 anon key (클라이언트용)
 SUPABASE_SERVICE_ROLE_KEY=       # service_role key (크롤러 upsert용)
 CRON_SECRET=                     # 무단 /api/crawl 호출 방지용 임의 문자열
+ANTHROPIC_API_KEY=               # LLM 번역/요약용 (아직 미추가)
 ```
+
+---
+
+## 작업 현황 (2026-06-16 기준)
+
+### 완료된 작업
+- 필터 버튼 `cursor-pointer`, 탭 전환 레이아웃 시프트 수정 (`overflow-y: scroll`)
+- `LastUpdated` 컴포넌트 — `news.created_at` 최댓값 기준, 연도 포함·시간 제외
+- 메인 페이지 "종합 뉴스" 스타일 개편:
+  - `Header.tsx`: 전체 폭 헤더 바, 로고 클릭 시 홈, 우측 GitHub 링크 + 언어 아이콘(툴팁만, 미구현)
+  - `Banner.tsx`: 최신 글 1건을 크게 표시 (검정 배경)
+  - `DigestSummary.tsx`: 종합 요약 박스 — placeholder, LLM 연동 전
+  - `ToolFilter.tsx`: 가로 탭 → 좌측 사이드바 내비로 변경
+  - `lib/badge.ts`: tool 배지 색상 매핑 (NewsCard/Banner 공유)
+
+### 다음 할 일 (우선순위 순)
+
+1. **LLM 기반 한국어 번역/재구성** — 크롤링 시점에 Claude Haiku 4.5로 title/summary를 한국어 뉴스 톤으로 재구성해서 DB 저장. `ANTHROPIC_API_KEY` 환경변수 추가 필요. 월 비용 1달러 미만 추정. 다국어 지원 기반으로 확장 가능.
+2. **DigestSummary 실제 데이터 연동** — 위 LLM 연동과 같은 타이밍에, 그날 뉴스 전체 요약 호출로 교체 (지금은 하드코딩 placeholder).
+3. **Banner 캐러셀** (보류) — GPT/Claude/Gemini 각 최신 1건씩 페이드인/아웃 자동 전환. `useState` + `setInterval` + Tailwind `transition-opacity`. Client Component 필요.
+4. **크롤러 썸네일 이미지 추출** (보류) — 카드 사진 배경의 선행 조건. 소스별 추출 방식 상이 (OG 이미지 / RSS media 태그).
+5. **종합 요약 박스 모양/위치 재검토** (보류).
 
 ---
 
